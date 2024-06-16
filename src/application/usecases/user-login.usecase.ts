@@ -9,11 +9,12 @@ export default class UserLoginUseCase {
         this.jwtService = jwtService;
     }
     public async login(email: string, password: string): Promise<string> {
+        
         const user = await this.userRepository.findBYEmail(email);
     
         if (!bcrypt.compareSync(password,user!.password)||!user) {
             throw new Error("Invalid credentials");
         }
-        return this.jwtService.generateToken({ id: user.id });
+        return this.jwtService.generateToken({ id: user.id,role:user.roleid });
     }
 }

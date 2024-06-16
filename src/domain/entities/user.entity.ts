@@ -8,6 +8,7 @@ export default class User {
   isDeleted : boolean;
   createdAt: Date;
   updatedAt: Date;
+  roleid: number;
 
 
     constructor (){
@@ -20,6 +21,7 @@ export default class User {
         this.isDeleted = false;
         this.createdAt = new Date();
         this.updatedAt = new Date();
+        this.roleid = 0;
     }
     
 

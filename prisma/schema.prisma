@@ -20,11 +20,68 @@ model User{
   username String @unique @db.VarChar(50)
   email String @unique @db.VarChar(100)
   password String @db.VarChar(300)
+  
   isDeleted Boolean @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  productosOfUser productosOfUser[]
+  role Role @relation(fields: [roleId], references: [id])
+  roleId Int
   @@index([email])
 }
+
+model Producto {
+  id Int @id @default(autoincrement())
+  nombre String @db.VarChar(50)
+  descripcion String @db.VarChar(100)
+  precio Float
+  stock Int
+  isDeleted Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  productosEspecificos specifProduct[]
+
+}
+
+model specifProduct{
+  codigo String @db.VarChar(100) @id 
+  productoId Int
+  producto Producto @relation(fields: [productoId], references: [id])
+  
+  isDeleted Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  createdBy Int 
+  updatedBy Int
+  productosOfUser productosOfUser[]
+
+
+ 
+}
+
+model productosOfUser{
+  id Int @id @default(autoincrement())
+  userId Int
+  user User @relation(fields: [userId], references: [id])
+  idSpecifProduct String
+  specifProduct specifProduct @relation(fields: [idSpecifProduct], references: [codigo])
+  isDeleted Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  createdBy Int 
+  updatedBy Int
+}
+
+model Role{
+  id Int @id @default(autoincrement())
+  name String @db.VarChar(50) @unique
+  isDeleted Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  users User[]
+}
+
+
 
 
 
