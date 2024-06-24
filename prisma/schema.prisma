@@ -53,6 +53,7 @@ model specifProduct{
   updatedAt DateTime @updatedAt
   createdBy Int 
   updatedBy Int
+  sensorData sensorData[]
   productosOfUser productosOfUser[]
 
 
@@ -79,6 +80,36 @@ model Role{
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   users User[]
+}
+
+
+
+model sensor {
+   id Int @id @default(autoincrement())
+   nombre String @db.VarChar(50)
+   descripcion String @db.VarChar(100)
+   isDeleted Boolean @default(false)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    createdBy Int
+    updatedBy Int
+    sensorData sensorData[]
+}
+
+model sensorData{
+  id Int @id @default(autoincrement())
+  sensorId Int
+  codeOfProduct String @db.Char(100)
+  sensor sensor @relation(fields: [sensorId], references: [id])
+  specificProduct specifProduct @relation(fields: [codeOfProduct],references: [codigo])
+  valor Float
+
+
+  isDeleted Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  createdBy Int 
+  updatedBy Int
 }
 
 

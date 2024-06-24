@@ -9,12 +9,28 @@ import UserRegisterUseCase from './application/usecases/user.register.usercase';
 import ProductOfUserRepositoryAdapter from './adapters/repositories/productoofuser.repository';
 import ProductoRepositoryAdapter from './adapters/repositories/product.repository';
 import SpecificProductoRepositoryAdapter from './adapters/repositories/specificproduct.repository';
+import SensorController from './adapters/controllers/sensorController';
+import SensorDataUseCase from './application/usecases/sensordata.usecase';
+
+import SensorDataRepository from './domain/ports/sensordata.repository.port';
+import SensorDataRepositoryAdapter from './adapters/repositories/sensordata.repository';
+import { MqttClientClass} from './infrastructure/mqtt/MqttClient';
+import authMiddleware from './infrastructure/middlewares/auth.middleware';
+import { RabbitMqClient } from './infrastructure/rabbitmq/RabbitMqClient';
 
 const app:Express=express();
 app.use(express.json());
 
 
 const user:User=new User();
+const sensorDataRepository:SensorDataRepository=new SensorDataRepositoryAdapter();
+const rabbitmqClient=new RabbitMqClient();
+
+const sensorDataUseCase:SensorDataUseCase=new SensorDataUseCase(sensorDataRepository,rabbitmqClient);
+const sensorController=new SensorController(sensorDataUseCase);
+app.use("/api/sensor",authMiddleware,sensorController.getrouter());
+
+
 const userRepositoryAdapter=new UserRepositoryAdapter(user);
 const productoofuserrepositoryadapter=new ProductOfUserRepositoryAdapter();
 const productrepositoryAdapter=new ProductoRepositoryAdapter()
