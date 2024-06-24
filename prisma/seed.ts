@@ -10,6 +10,7 @@ async function main() {
             isDeleted:false
         }
     })
+    
     await prisma.producto.create({
         data:{
             nombre:"solPanel",
@@ -52,7 +53,51 @@ async function main() {
        
     ]
     })
+
+    await prisma.sensor.createMany({
+    
+        data:[{
+            nombre:"sensor de temperatura Digital Ds18b20",
+            descripcion:"sensor de temperatura",
+            createdAt:new Date(),
+            
+            isDeleted:false,
+            createdBy:1,
+            updatedBy:0
+    
+        },
+        {
+            nombre:"modulo de sensor de luz fotoresistencia ldr",
+            descripcion:"sensor de luz fotoresistencia ldr",
+            createdAt:new Date(),
+            
+            isDeleted:false,
+            createdBy:1,
+            updatedBy:0
+
+        },
+        {
+            nombre:"sensor de voltaje Ac Zmpt101b",
+            descripcion:"sensor de temperatura",
+            createdAt:new Date(),
+            
+            isDeleted:false,
+            createdBy:1,
+            updatedBy:0
+        },
+        {
+            nombre:"modulo de sesnor de corriente Acs712",
+            descripcion:"sensor de temperatura",
+            createdAt:new Date(),
+            
+            isDeleted:false,
+            createdBy:1,
+            updatedBy:0
+        }
+    ]
+    })
 }
+
 
 main()
   .then(async () => {
