@@ -1,0 +1,119 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User{
+  id Int @id @default(autoincrement()) 
+  name String @db.VarChar(100)
+  email String @unique @db.VarChar(100)
+  password String @db.VarChar(300)
+  isDeleted Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  productosOfUser productosOfUser[]
+  role Role @relation(fields: [roleId], references: [id])
+  roleId Int
+  @@index([email])
+}
+
+model Producto {
+  id Int @id @default(autoincrement())
+  nombre String @db.VarChar(50)
+  descripcion String @db.VarChar(100)
+  precio Float
+  stock Int
+  isDeleted Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  productosEspecificos specifProduct[]
+
+}
+
+model specifProduct{
+  codigo String @db.VarChar(100) @id 
+  productoId Int
+  producto Producto @relation(fields: [productoId], references: [id])
+  
+  isDeleted Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  createdBy Int 
+  updatedBy Int
+  sensorData sensorData[]
+  productosOfUser productosOfUser[]
+
+
+ 
+}
+
+model productosOfUser{
+  id Int @id @default(autoincrement())
+  userId Int
+  user User @relation(fields: [userId], references: [id])
+  idSpecifProduct String
+  specifProduct specifProduct @relation(fields: [idSpecifProduct], references: [codigo])
+  isDeleted Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  createdBy Int 
+  updatedBy Int
+}
+
+model Role{
+  id Int @id @default(autoincrement())
+  name String @db.VarChar(50) @unique
+  isDeleted Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  users User[]
+}
+
+
+
+model sensor {
+   id Int @id @default(autoincrement())
+   nombre String @db.VarChar(50)
+   descripcion String @db.VarChar(100)
+   isDeleted Boolean @default(false)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    createdBy Int
+    updatedBy Int
+    sensorData sensorData[]
+}
+
+model sensorData{
+  id Int @id @default(autoincrement())
+  sensorId Int
+  codeOfProduct String @db.Char(100)
+  sensor sensor @relation(fields: [sensorId], references: [id])
+  specificProduct specifProduct @relation(fields: [codeOfProduct],references: [codigo])
+  valor Float
+  nameSensor String @db.Char(100)
+
+
+  isDeleted Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  createdBy Int 
+  updatedBy Int
+  @@index([createdAt])
+  @@index([sensorId])
+}
+
+
+
+
+
+
