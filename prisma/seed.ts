@@ -4,7 +4,7 @@ async function main() {
     await prisma.role.create({
         data:{
             
-            name:"admin",
+            name:"client",
             createdAt:new Date(),
             updatedAt:new Date(),
             isDeleted:false
@@ -78,7 +78,7 @@ async function main() {
         },
         {
             nombre:"sensor de voltaje Ac Zmpt101b",
-            descripcion:"sensor de temperatura",
+            descripcion:"sensor de voltaje",
             createdAt:new Date(),
             
             isDeleted:false,
@@ -87,7 +87,7 @@ async function main() {
         },
         {
             nombre:"modulo de sesnor de corriente Acs712",
-            descripcion:"sensor de temperatura",
+            descripcion:"sensor de corriente",
             createdAt:new Date(),
             
             isDeleted:false,

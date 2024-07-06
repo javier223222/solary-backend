@@ -164,7 +164,7 @@ export default class SpecificProductoRepositoryAdapter implements SpecificProduc
                                     isDeleted:true,
                                     createdAt:true,
                                     updatedAt:true,
-                                    lastname:true,
+                                    
                                     name:true,
                                     email:true
                                 }

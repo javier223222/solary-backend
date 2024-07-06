@@ -27,11 +27,11 @@ export default class UserController{
     }
     public async register(req: Request, res: Response):Promise<Response>{
 
-        const {username,name,lastname,email,password,codigoproducto}=req.body;
+        const {name,email,password,codigoproducto}=req.body;
         try {
             await this.registerUserCase.register({
                 name:name,
-                lastname:lastname,
+              
                 email:email,
                 password:password,
                 id:0,
@@ -39,7 +39,6 @@ export default class UserController{
                 updatedAt:new Date(),
                 isDeleted:false,
                 roleid:Number(process.env.ROLEID as string),
-                username:username
 
 
 
