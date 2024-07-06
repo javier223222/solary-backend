@@ -9,7 +9,7 @@ const authMiddleware=async (req:Request,res:Response,next:NextFunction)=>{
         if(!verifytoken){
             return res.status(401).json({
                 success:false,
-                message:"unauthorizate"
+                message:"unauthorizated"
             })
         }
         next()
@@ -24,9 +24,9 @@ const authMiddleware=async (req:Request,res:Response,next:NextFunction)=>{
 
     }catch(err:any){
         console.log(err)
-        return res.status(500).json({
+        return res.status(401).json({
             success:false,
-            message:"Error en el servidor"
+            message:"unauthorizated"
         })
         
     }

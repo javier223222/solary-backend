@@ -1,8 +1,7 @@
 export default class User {
   id: number; 
   name: string; 
-  lastname: string;
-  username: string;
+ 
   email : string;
   password : string;
   isDeleted : boolean;
@@ -14,8 +13,7 @@ export default class User {
     constructor (){
         this.id = 0;
         this.name = "";
-        this.lastname = "";
-        this.username = "";
+ 
         this.email = "";
         this.password = "";
         this.isDeleted = false;

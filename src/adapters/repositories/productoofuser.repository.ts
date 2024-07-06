@@ -141,6 +141,13 @@ public async findByUserId(id: number,page?: number | undefined, limit?: number |
             where:{
                 userId:id,
                 isDeleted:false
+            },
+            select:{
+                id:true,
+                idSpecifProduct:true,
+                userId:true,
+                createdAt:true,
+                
             }
         })
         return result

@@ -1,8 +1,7 @@
 import  { Express,Request,Response }  from "express";
 import express from "express";
 import SensorDataUseCase from "../../application/usecases/sensordata.usecase";
-
-
+import axios from "axios";
 const router=express.Router();
 
 export default class SensorController{
@@ -27,9 +26,12 @@ export default class SensorController{
                 });
                 return res.status(201).json({success:true,message:"Data saved successfully"});
             } catch (error) {
+                console.log(error);
                 return res.status(400).json({success:false,message:"Error saving data"});
             }
         })
+       
+
     }
     
     getrouter(){

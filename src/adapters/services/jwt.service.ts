@@ -9,4 +9,5 @@ export default class JwtService implements JwtServicePort {
     public verifyToken(token: string): any {
         return jwt.verify(token,this.secret);
     }
+    
 }
