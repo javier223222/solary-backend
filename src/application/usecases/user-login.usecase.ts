@@ -15,7 +15,9 @@ export default class UserLoginUseCase {
     public async login(email: string, password: string): Promise<string> {
         
         const user = await this.userRepository.findBYEmail(email);
+        console.log(user)
         let productofuser:any[]|Pagination=await this.productOfUserRepository.findByUserId(user!.id) 
+       
         if (!bcrypt.compareSync(password,user!.password)||!user) {
             throw new Error("Invalid credentials");
         }

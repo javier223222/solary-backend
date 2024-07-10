@@ -86,7 +86,7 @@ async function main() {
             updatedBy:0
         },
         {
-            nombre:"modulo de sesnor de corriente Acs712",
+            nombre:"modulo de sensor de corriente Acs712",
             descripcion:"sensor de corriente",
             createdAt:new Date(),
             
