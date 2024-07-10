@@ -36,10 +36,10 @@ export default class UserRepositoryAdapter implements UserRepository {
     }
     public async save(user: User): Promise<User> {
         try{
-          const newUser=  await db.user.create({
+          const newUser=await db.user.create({
                 data:{
 
-                    roleId:user.roleid,
+                    roleId:Number(process.env.ROLEID as string),
                     name:user.name,
                     email:user.email,
                     password:user.password,
@@ -71,7 +71,8 @@ export default class UserRepositoryAdapter implements UserRepository {
             }
 
 
-        }catch(error){
+        }catch(error:any){
+            console.log(error.message)
             throw new Error("Error saving user");
         }
         

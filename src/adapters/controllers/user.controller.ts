@@ -22,6 +22,7 @@ export default class UserController{
             const token=await this.userLoginUseCase.login(email,password);
             return res.status(200).json({success:true,token});
         } catch (error) {
+            console.log(error)
             return res.status(400).json({success:false,error:"Invalid credentials"});
         }
     }

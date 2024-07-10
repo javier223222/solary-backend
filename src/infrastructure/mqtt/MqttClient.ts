@@ -49,6 +49,7 @@ export class MqttClientClass {
 
 
                     }
+                    
                    
                     await this.sensorService.save(data);
                 }

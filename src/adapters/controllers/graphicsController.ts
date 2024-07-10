@@ -27,10 +27,12 @@ export default class GraphicsController{
             if(month && year){
                 result=await this.sensorDataUseCase.getByDate(idSpeceficProduct,Number(year),Number(month),Number(typeSensorId))
 
+            }else if(year){
+                result=await this.sensorDataUseCase.getByYear(idSpeceficProduct,Number(year),Number(typeSensorId))
             }else{
-                result=await this.sensorDataUseCase.getByYear(idSpeceficProduct,undefined,Number(typeSensorId))
-
+                result=await this.sensorDataUseCase.get(idSpeceficProduct,Number(typeSensorId))
             }
+            
             
             
 
@@ -98,13 +100,17 @@ export default class GraphicsController{
                jsonresult.message="typeSensorId and typeSensorIdtwo is required"
                return res.status(400).json(jsonresult)
             }
+
             if(month && year){
                 
                 result=await this.sensorDataUseCase.getByDate(idSpeceficProduct,Number(year),Number(month),Number(typeSensorId))
                 result2=await this.sensorDataUseCase.getByDate(idSpeceficProduct,Number(year),Number(month),Number(typeSensorIdtwo))
+            }else if(year){
+                result=await this.sensorDataUseCase.getByYear(idSpeceficProduct,Number(year),Number(typeSensorId))
+                result2=await this.sensorDataUseCase.getByYear(idSpeceficProduct,Number(year),Number(typeSensorIdtwo))
             }else{
-                result=await this.sensorDataUseCase.getByYear(idSpeceficProduct,undefined,Number(typeSensorId))
-                result2=await this.sensorDataUseCase.getByYear(idSpeceficProduct,undefined,Number(typeSensorIdtwo))
+                result=await this.sensorDataUseCase.get(idSpeceficProduct,Number(typeSensorId))
+                result2=await this.sensorDataUseCase.get(idSpeceficProduct,Number(typeSensorIdtwo))
             }
             if(result.length===0 || result2.length===0){
                 jsonresult={
@@ -210,7 +216,7 @@ export default class GraphicsController{
                 result=await this.sensorDataUseCase.getByYear(idSpeceficProduct,Number(year))
 
             }else{
-                result=await this.sensorDataUseCase.getByYear(idSpeceficProduct)
+                result=await this.sensorDataUseCase.get(idSpeceficProduct)
             }
             if(result.length===0){
                 return res.status(404).json({
@@ -258,8 +264,17 @@ export default class GraphicsController{
      })
      router.get("/boxplot",async(req:Request,res:Response):Promise<Response>=>{
         try{
+            const {year,month}=req.query
             const {idSpeceficProduct}= jwtserivce.verifyToken(req.headers.authorization as string)
-            const result=await this.sensorDataUseCase.getByYear(idSpeceficProduct)
+            let result:SensorData[]
+            if(year && month){
+                result=await this.sensorDataUseCase.getByDate(idSpeceficProduct,Number(year),Number(month))
+            }else if(year){
+                result=await this.sensorDataUseCase.getByYear(idSpeceficProduct,Number(year))
+            }else{
+                result=await this.sensorDataUseCase.get(idSpeceficProduct)
+            }
+            
             const data=await this.staclient.boxplot(result,req.headers.authorization as string)
             return res.status(200).json({
                 success:true,
