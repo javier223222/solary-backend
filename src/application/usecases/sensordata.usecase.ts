@@ -12,7 +12,10 @@ export default class SensorDataUseCase {
       
     }
    public  async save(data: SensorData): Promise<SensorData> {
+        let  result=await this.sensorDataRepository.save(data);
         await this.rabbitMqClient.sendMessagge(data);
+        console.log("Datos guardado correctamente",(result))
+        
         return data
 
     }

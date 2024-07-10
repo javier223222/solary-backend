@@ -21,15 +21,18 @@ export default class UserRegisterUseCase {
 
   public async register(user:User,codigoproducto:string):Promise<void>{
     try{
+      console.log(user)
        
       user.password=bcrypt.hashSync(user.password,Number(process.env.SALT as string))
 
         const findexists=await this.specificproductrepository.findByCodigo(codigoproducto.toLowerCase())
-
+        console.log(findexists)
         if(!findexists){
           throw new Error("Specific product not found")
         }
         const newUser=await this.userRepository.save(user)
+        console.log("lleg")
+
         
         const dinporductofuser=await this.productofuserrepository.findBySpecificProduct(codigoproducto)
         console.log(dinporductofuser)
@@ -81,8 +84,8 @@ export default class UserRegisterUseCase {
 
         
 
-    }catch(e){
-      console.error(e)
+    }catch(e:any){
+      console.error(e.message)
       throw new Error("Error saving user")
     }
   }

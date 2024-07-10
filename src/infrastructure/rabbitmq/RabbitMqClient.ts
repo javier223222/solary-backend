@@ -11,7 +11,8 @@ export class RabbitMqClient {
     this.connection=await amqp.connect(process.env.RABBITMQ_URL as string,{
         
         username:process.env.RABBITMQ_USERNAME as string,
-        password:process.env.RABBITMQ_PASSWORD as string
+        password:process.env.RABBITMQ_PASSWORD as string,
+        
     })
     this.channel=await this.connection.createChannel()
     await this.channel.assertQueue(process.env.RABBITMQ_QUEUE as string)

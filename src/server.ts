@@ -11,7 +11,7 @@ import { SensorData } from './domain/entities/sensordara.entity';
 const sensorDataRepository:SensorDataRepository=new SensorDataRepositoryAdapter();
 const rabbitmqClient=new RabbitMqClient();
 const sensorDataUseCase:SensorDataUseCase=new SensorDataUseCase(sensorDataRepository,rabbitmqClient);
-const mqttClient=new MqttClientClass(sensorDataUseCase);
+// const mqttClient=new MqttClientClass(sensorDataUseCase);
 
 
 import { Server } from 'socket.io';
@@ -20,47 +20,26 @@ import { StatsClient } from './infrastructure/stadicts/stadicts';
 import ProbabilityClient from './infrastructure/probability/probability';
 const probabilityClient=new ProbabilityClient();
 const server=http.createServer(app);
-const io=new Server(server,{
-    cors:{
-        origin:"*",
-        methods:["GET","POST"]
-    }
-});
+// const io=new Server(server,{
+//     cors:{
+//         origin:"*",
+//         methods:["GET","POST"]
+//     }
+// });
 const PORT=process.env.PORT||3000;
-const socketIOService=new SocketIOService(io,sensorDataUseCase,new StatsClient(),probabilityClient);
-socketIOService.initSocketIO();
+// const socketIOService=new SocketIOService(io,sensorDataUseCase,new StatsClient(),probabilityClient);
+// socketIOService.initSocketIO();
 
 server.listen(PORT,()=>{
     console.log(`Server is running on port ${PORT}`);
 })
 
 
-rabbitmqClient.connect().then(() => {
-    rabbitmqClient.consumeMessages(async(message)=>{
- 
-    const {sensorId,valor,nameSensor,codeOfProduct}=message
-    console.log(sensorId,valor,nameSensor,codeOfProduct)
-    const result=await sensorDataRepository.save({
-        id:0,
-        isDeleted:false,
-        valor:Number(valor),
-        sensorId:sensorId,
-        codeOfProduct:codeOfProduct,
-        createdAt:new Date(),
-        createdBy:1,
-        updatedAt:new Date(),
-        updatedBy:0,
-        nameSensor:nameSensor
-    })
- 
+// rabbitmqClient.connect().then(() => {
     
-    
-    })
-    console.log('Connected to RabbitMQ');
-}).catch(err => {
-    console.error('Failed to connect to RabbitMQ', err);
-})
-
+//     console.log('Connected to RabbitMQ');
+// }).catch(err => {
+//     console.error('Failed to connect to RabbitMQ
 
 
 
