@@ -54,6 +54,7 @@ model specifProduct{
   productosOfUser productosOfUser[]
 
 
+
  
 }
 
@@ -108,8 +109,24 @@ model sensorData{
   updatedAt DateTime @updatedAt
   createdBy Int 
   updatedBy Int
+  anomaly anomaly[]
   @@index([createdAt])
+  
   @@index([sensorId])
+}
+model anomaly{
+  id Int @id @default(autoincrement())
+  sensorDataId Int
+  sensorData sensorData @relation(fields: [sensorDataId], references: [id])
+  isDeleted Boolean @default(false)
+  createdAt DateTime @default(now())
+  
+  createdBy Int 
+  updatedBy Int
+  @@index([createdAt])
+  @@index([sensorDataId])
+
+
 }
 
 

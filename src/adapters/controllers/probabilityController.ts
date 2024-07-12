@@ -237,6 +237,34 @@ export default class ProbabilityController{
                 })
             }
         })
+        
+        router.get("/probabilitybypoisson",async(req:Request,res:Response):Promise<Response>=>{
+            try{
+                const {sensorId}=req.query
+                if(!sensorId){
+                    return res.status(400).json({
+                        success:false,
+                        message:"sensorId is required"
+                    })
+                }
+                const {idSpeceficProduct}= jwtserivce.verifyToken(req.headers.authorization as string)
+                let result:SensorData[]
+                result=await this.sensorDataUseCase.get(idSpeceficProduct,Number(sensorId))
+                const data=await this.probabilityClient.detectanomalyByMethodPoint(result,req.headers.authorization as string)
+                return res.status(200).json({
+                    success:true,
+                    data,
+                    
+                })
+
+            }catch(e:any){
+                console.log(e)
+                return res.status(500).json({
+                    success:false,
+                    message:"Internal Server Error"
+                })
+            }
+        })
     }
     public getRouter(){
         return router;
