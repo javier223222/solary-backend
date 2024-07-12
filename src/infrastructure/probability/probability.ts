@@ -120,5 +120,23 @@ export default class ProbabilityClient {
             throw new Error(err)
         }
     }
+    async detectanomalyByMethodPoint(sensor_data:SensorData[],token:string):Promise<any>{
+        try{
+            const response=await axios.post(`${process.env.STATS_URL}/api/v1/probability/probabilitybypoisson`,{
+                sensor_data
+            },{
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            return JSON.parse(response.data)
+
+        }catch(err:any){
+            console.log(err)
+            throw new Error(err)
+        }
+    }
+
+    
 
 }
