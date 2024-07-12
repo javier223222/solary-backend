@@ -22,6 +22,8 @@ import GraphicsController from './adapters/controllers/graphicsController';
 import Statics from './adapters/controllers/statistics';
 import ProbabilityClient from './infrastructure/probability/probability';
 import ProbabilityController from './adapters/controllers/probabilityController';
+import AnomalyRepositoryAdapter from './adapters/repositories/anomaly.repository';
+import AnomalyController from './adapters/controllers/anomalyController';
 
 const app:Express=express();
 app.use(express.json());
@@ -45,6 +47,8 @@ const graphicsController=new GraphicsController(sensorDataUseCase,statsClient);
 const staticsController=new Statics(sensorDataUseCase,statsClient);
 const probabilityClient=new ProbabilityClient();
 const probabilityController=new ProbabilityController(sensorDataUseCase,probabilityClient);
+const anomalityrepository=new AnomalyRepositoryAdapter();
+const anomalitycontroller=new AnomalyController(anomalityrepository);
 
 app.use(cors());
 app.use("/api/auth",userController.router);
@@ -52,4 +56,7 @@ app.use("/api/sensor",authMiddleware,sensorController.getrouter());
 app.use("/api/graphics",authMiddleware,graphicsController.getrouter())
 app.use("/api/statistics",authMiddleware,staticsController.getRouter())
 app.use("/api/probability",authMiddleware,probabilityController.getRouter())
+app.use("/api/anomaly",authMiddleware,anomalitycontroller.getrouter())
+
+
 export default app;
