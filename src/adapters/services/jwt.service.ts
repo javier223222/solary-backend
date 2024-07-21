@@ -4,7 +4,7 @@ import "dotenv/config"
 export default class JwtService implements JwtServicePort {
     private readonly secret=process.env.JWT_SECRET as string;
     public generateToken(payload: any): string {
-        return jwt.sign(payload,this.secret ,{expiresIn:'1h'});
+        return jwt.sign(payload,this.secret ,{expiresIn:'10h'});
     }
     public verifyToken(token: string): any {
         return jwt.verify(token,this.secret);
